@@ -1,19 +1,20 @@
 /* ============================================
    MR Agentix — main.js
-   Navigation, scroll behavior, terminal animation, form handling
+   Navigation, scroll behavior, terminal animation,
+   form handling, enhanced scroll animations
    ============================================ */
 
 (function () {
   'use strict';
 
   // --- DOM Elements ---
-  const nav = document.getElementById('nav');
-  const navToggle = document.getElementById('nav-toggle');
-  const navMenu = document.getElementById('nav-menu');
-  const navLinks = document.querySelectorAll('.nav__link');
-  const sections = document.querySelectorAll('section[id]');
-  const contactForm = document.getElementById('contact-form');
-  const formStatus = document.getElementById('form-status');
+  var nav = document.getElementById('nav');
+  var navToggle = document.getElementById('nav-toggle');
+  var navMenu = document.getElementById('nav-menu');
+  var navLinks = document.querySelectorAll('.nav__link');
+  var sections = document.querySelectorAll('section[id]');
+  var contactForm = document.getElementById('contact-form');
+  var formStatus = document.getElementById('form-status');
 
   // --- Nav: scroll border ---
   function handleNavScroll() {
@@ -29,7 +30,7 @@
 
   // --- Nav: mobile toggle ---
   navToggle.addEventListener('click', function () {
-    const isOpen = navMenu.classList.toggle('nav__menu--open');
+    var isOpen = navMenu.classList.toggle('nav__menu--open');
     navToggle.classList.toggle('nav__toggle--open');
     navToggle.setAttribute('aria-expanded', isOpen);
   });
@@ -126,9 +127,9 @@
     terminalObserver.observe(terminal);
   }
 
-  // --- Scroll-in animations ---
+  // --- Enhanced Scroll-in animations with stagger ---
   var animateEls = document.querySelectorAll('[data-animate]');
-  var staggerDelay = 80; // ms between siblings
+  var staggerDelay = 120; // ms between siblings — more pronounced
 
   var animateObserver = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
@@ -171,46 +172,22 @@
   window.addEventListener('scroll', handleBackToTop, { passive: true });
   handleBackToTop();
 
-  // --- Stat count-up animation ---
-  var statNumbers = document.querySelectorAll('[data-count]');
-  var statsCounted = false;
+  // --- Copy install command to clipboard ---
+  var copyBtn = document.getElementById('copy-install');
+  var installCmd = document.getElementById('install-cmd');
 
-  function animateCount(el) {
-    var target = parseInt(el.getAttribute('data-count'), 10);
-    var suffix = el.getAttribute('data-suffix') || '';
-    var duration = 1200;
-    var start = performance.now();
-
-    function tick(now) {
-      var elapsed = now - start;
-      var progress = Math.min(elapsed / duration, 1);
-      // Ease out cubic
-      var eased = 1 - Math.pow(1 - progress, 3);
-      var current = Math.round(eased * target);
-      el.textContent = current + suffix;
-      if (progress < 1) {
-        requestAnimationFrame(tick);
-      }
-    }
-
-    requestAnimationFrame(tick);
-  }
-
-  var statsSection = document.getElementById('stats');
-  if (statsSection) {
-    var statsObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting && !statsCounted) {
-          statsCounted = true;
-          statNumbers.forEach(function (el) {
-            animateCount(el);
-          });
-          statsObserver.unobserve(statsSection);
-        }
+  if (copyBtn && installCmd) {
+    copyBtn.addEventListener('click', function () {
+      var text = installCmd.textContent;
+      navigator.clipboard.writeText(text).then(function () {
+        copyBtn.classList.add('opensource__install-copy--copied');
+        copyBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+        setTimeout(function () {
+          copyBtn.classList.remove('opensource__install-copy--copied');
+          copyBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+        }, 2000);
       });
-    }, { threshold: 0.3 });
-
-    statsObserver.observe(statsSection);
+    });
   }
 
   // --- Contact form: submit to webhook via fetch ---
@@ -238,7 +215,7 @@
       })
         .then(function (response) {
           if (response.ok) {
-            formStatus.textContent = 'Message sent. We\'ll be in touch.';
+            formStatus.textContent = 'Message sent. We\'ll be in touch within 24 hours.';
             formStatus.classList.add('form__status--success');
             contactForm.reset();
           } else {
