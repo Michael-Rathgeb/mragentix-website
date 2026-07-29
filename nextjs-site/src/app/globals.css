@@ -419,3 +419,198 @@ body {
   }
   html { scroll-behavior: auto; }
 }
+
+/* ============================================
+   Hero — 3D redesign
+   ============================================ */
+
+/* Gradient headline with a slow emerald sheen sweep */
+.text-gradient {
+  background-image: linear-gradient(
+    110deg,
+    #e6edf3 0%,
+    #e6edf3 38%,
+    var(--accent) 52%,
+    #7df2cf 62%,
+    #e6edf3 82%
+  );
+  background-size: 220% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: text-gradient-pan 9s linear infinite;
+  text-shadow: 0 0 80px rgba(0, 229, 160, 0.15);
+}
+
+@keyframes text-gradient-pan {
+  to { background-position: 220% center; }
+}
+
+/* Masked tech grid */
+.hero-grid {
+  background-image:
+    linear-gradient(to right, rgba(0, 229, 160, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 229, 160, 0.055) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 42%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(ellipse 75% 60% at 50% 42%, #000 0%, transparent 78%);
+}
+
+/* Legibility vignette + subtle left-side darkening behind copy */
+.hero-vignette {
+  background:
+    linear-gradient(to bottom, rgba(13, 17, 23, 0.65) 0%, transparent 20%, transparent 68%, rgba(13, 17, 23, 0.92) 100%),
+    radial-gradient(circle at 18% 48%, rgba(13, 17, 23, 0.6) 0%, transparent 46%);
+}
+
+/* Soft emerald glow bloom behind the core */
+.hero-glow {
+  background: radial-gradient(38% 48% at 68% 44%, rgba(0, 229, 160, 0.16) 0%, transparent 72%);
+}
+
+/* Status pill */
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.76rem;
+  letter-spacing: 0.01em;
+  color: var(--text-secondary);
+  background: rgba(22, 27, 34, 0.6);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.hero-pill__dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.hero-pill__dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse-dot 2s ease-out infinite;
+}
+
+@keyframes pulse-dot {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(3.2); opacity: 0; }
+}
+
+/* CTA arrow nudge on hover */
+.hero-cta__arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.hero-cta:hover .hero-cta__arrow {
+  transform: translateX(4px);
+}
+
+/* Floating terminal */
+.hero-terminal-wrap {
+  position: relative;
+  perspective: 1200px;
+}
+
+.hero-terminal-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -12% -6%;
+  background: radial-gradient(closest-side, rgba(0, 229, 160, 0.18), transparent 72%);
+  filter: blur(24px);
+  z-index: -1;
+}
+
+.hero-terminal-float {
+  will-change: transform;
+}
+
+.hero-terminal-card {
+  position: relative;
+  border-radius: var(--radius);
+}
+
+.hero-terminal-card .terminal {
+  border-color: var(--border-accent);
+  background: rgba(22, 27, 34, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow:
+    0 24px 70px -24px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(0, 229, 160, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+/* Scroll cue */
+.hero-scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 1.5rem;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.hero-scroll-cue:hover {
+  opacity: 1;
+}
+
+.hero-scroll-cue__mouse {
+  width: 24px;
+  height: 38px;
+  border: 2px solid var(--text-muted);
+  border-radius: 14px;
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+}
+
+.hero-scroll-cue__wheel {
+  width: 3px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--accent);
+  animation: scroll-wheel 1.8s ease-in-out infinite;
+}
+
+@keyframes scroll-wheel {
+  0% { opacity: 0; transform: translateY(-4px); }
+  40% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(10px); }
+}
+
+.hero-scroll-cue__label {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+@media (max-width: 1023px) {
+  .hero-scroll-cue { display: none; }
+}
+
+/* Larger ghost button to balance the primary CTA */
+.btn--lg {
+  padding: 0.9rem 1.6rem;
+  font-size: 1rem;
+}

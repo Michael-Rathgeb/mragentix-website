@@ -1,108 +1,159 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import DecryptedText from '@/components/ui/decrypted-text';
-import BlurText from '@/components/ui/blur-text';
+import { motion, type Variants } from 'motion/react';
 import StarBorder from '@/components/ui/star-border';
 import AnimatedContent from '@/components/ui/animated-content';
+import TiltCard from '@/components/ui/tilt-card';
 import Terminal from '@/components/terminal';
 
-const Aurora = dynamic(() => import('@/components/ui/aurora'), { ssr: false });
+const HeroScene = dynamic(() => import('@/components/hero-scene'), { ssr: false });
+
+const HEADLINE = ['We', 'build', 'the', 'agents', 'that', 'do', 'the', 'work.'];
+
+const container: Variants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.075, delayChildren: 0.15 },
+  },
+};
+
+const word: Variants = {
+  hidden: { opacity: 0, y: '0.5em' },
+  show: {
+    opacity: 1,
+    y: '0em',
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+  },
+};
 
 export default function Hero() {
   return (
-    <section id="hero" className="relative min-h-screen flex items-center pt-16 overflow-hidden">
-      {/* Aurora background */}
-      <div className="absolute inset-0 opacity-40 pointer-events-none">
-        <Aurora
-          colorStops={['#00e5a0', '#0d1117', '#00e5a0']}
-          amplitude={1.2}
-          blend={0.6}
-          speed={0.5}
-        />
-      </div>
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-20"
+    >
+      {/* 3D WebGL background */}
+      <HeroScene className="absolute inset-0 z-0 pointer-events-none" />
 
-      <div className="container relative z-10 py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Content */}
-          <div className="space-y-6">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              <DecryptedText
-                text="We Build the Agents That Do the Work."
-                animateOn="view"
-                sequential
-                speed={30}
-                revealDirection="start"
-                className="text-[var(--text-primary)]"
-                encryptedClassName="text-[var(--accent)]"
-              />
+      {/* Decorative overlays */}
+      <div className="hero-grid absolute inset-0 z-[1] pointer-events-none" aria-hidden />
+      <div className="hero-vignette absolute inset-0 z-[1] pointer-events-none" aria-hidden />
+      <div className="hero-glow absolute inset-0 z-[1] pointer-events-none" aria-hidden />
+
+      <div className="container relative z-10">
+        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-8 items-center">
+          {/* ---- Copy ---- */}
+          <motion.div
+            variants={container}
+            initial="hidden"
+            animate="show"
+            className="max-w-2xl"
+          >
+            <motion.div variants={word} className="mb-6">
+              <span className="hero-pill">
+                <span className="hero-pill__dot" />
+                Now booking builds · St. Louis &amp; remote
+              </span>
+            </motion.div>
+
+            <h1 className="text-[2.6rem] sm:text-6xl lg:text-[4.4rem] font-bold leading-[1.02] tracking-tight text-gradient">
+              {HEADLINE.map((w, i) => (
+                <motion.span
+                  key={i}
+                  variants={word}
+                  className="inline-block mr-[0.28em]"
+                >
+                  {w}
+                </motion.span>
+              ))}
             </h1>
 
-            <BlurText
-              text="AI automation, agentic workflows, and intelligent web systems for businesses ready to scale without adding headcount."
-              className="text-lg md:text-xl text-[var(--text-secondary)] max-w-xl"
-              delay={100}
-              animateBy="words"
-            />
+            <motion.p
+              variants={word}
+              className="mt-6 text-lg md:text-xl text-[var(--text-secondary)] max-w-xl leading-relaxed"
+            >
+              AI automation, agentic workflows, and intelligent web systems for
+              businesses ready to scale{' '}
+              <span className="text-[var(--text-primary)]">without adding headcount.</span>
+            </motion.p>
 
-            <AnimatedContent delay={0.3}>
-              <div className="flex flex-wrap gap-4 pt-2">
-                <StarBorder
-                  as="a"
-                  href="#contact"
-                  color="#00e5a0"
-                  speed="6s"
-                  className="!rounded-lg"
-                >
-                  <span className="px-4 py-2 font-semibold">
-                    Book a Free Discovery Call →
-                  </span>
-                </StarBorder>
-                <a href="#services" className="btn btn--ghost">
-                  See What We Build
-                </a>
-              </div>
-            </AnimatedContent>
-
-            <AnimatedContent delay={0.4}>
-              <p className="text-xs text-[var(--text-muted)]">
-                Free discovery call — no pitch deck
-              </p>
-            </AnimatedContent>
-
-            <AnimatedContent delay={0.5}>
-              <div className="flex items-center gap-3 pt-2">
-                <div className="flex -space-x-1 text-lg" aria-hidden="true">
-                  <span>🏢</span>
-                  <span>🏗️</span>
-                  <span>🏥</span>
-                  <span>🍽️</span>
-                </div>
-                <span className="text-sm text-[var(--text-secondary)]">
-                  Trusted by businesses across 12 industries
+            <motion.div variants={word} className="flex flex-wrap gap-4 mt-9">
+              <StarBorder
+                as="a"
+                href="#contact"
+                color="#00e5a0"
+                speed="5s"
+                className="!rounded-xl hero-cta"
+              >
+                <span className="px-5 py-2.5 font-semibold inline-flex items-center gap-2">
+                  Book a Free Discovery Call
+                  <span className="hero-cta__arrow">→</span>
                 </span>
-              </div>
-            </AnimatedContent>
-          </div>
+              </StarBorder>
+              <a href="#services" className="btn btn--ghost btn--lg">
+                See what we build
+              </a>
+            </motion.div>
 
-          {/* Terminal */}
-          <AnimatedContent delay={0.2} distance={30}>
-            <Terminal
-              title="mragentix-cli"
-              animated
-              lines={[
-                { type: 'command', text: 'mragentix deploy --agent seo-crawler' },
-                { type: 'success', text: 'Scraping People Also Ask data...' },
-                { type: 'success', text: 'Clustering 847 questions...' },
-                { type: 'success', text: 'Generating schema markup...' },
-                { type: 'success', text: 'Building static site...' },
-                { type: 'info', text: 'Deployed to mragentix.ai/client/austin-hvac' },
-                { type: 'cursor' },
-              ]}
-            />
+            <motion.div variants={word} className="flex items-center gap-4 mt-8">
+              <div className="flex -space-x-2" aria-hidden>
+                {['🏢', '🏗️', '🏥', '🍽️', '⚖️'].map((e, i) => (
+                  <span
+                    key={i}
+                    className="w-9 h-9 rounded-full grid place-items-center bg-[var(--bg-elevated)] border border-[var(--border)] text-sm"
+                  >
+                    {e}
+                  </span>
+                ))}
+              </div>
+              <span className="text-sm text-[var(--text-secondary)]">
+                Trusted across{' '}
+                <span className="text-[var(--text-primary)] font-semibold">12 industries</span>
+              </span>
+            </motion.div>
+
+            <motion.p variants={word} className="mt-6 text-xs text-[var(--text-muted)] font-[var(--font-mono)]">
+              {'// free discovery call · no pitch deck · ships in weeks, not quarters'}
+            </motion.p>
+          </motion.div>
+
+          {/* ---- Floating terminal ---- */}
+          <AnimatedContent delay={0.25} distance={30} className="relative">
+            <div className="hero-terminal-wrap">
+              <motion.div
+                className="hero-terminal-float"
+                animate={{ y: [0, -12, 0] }}
+                transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                <TiltCard className="hero-terminal-card">
+                  <Terminal
+                    title="mragentix-cli"
+                    animated
+                    lines={[
+                      { type: 'command', text: 'mragentix deploy --agent seo-crawler' },
+                      { type: 'success', text: 'Scraping People Also Ask data...' },
+                      { type: 'success', text: 'Clustering 847 questions...' },
+                      { type: 'success', text: 'Generating schema markup...' },
+                      { type: 'success', text: 'Building static site...' },
+                      { type: 'info', text: 'Deployed to mragentix.ai/client/austin-hvac' },
+                      { type: 'cursor' },
+                    ]}
+                  />
+                </TiltCard>
+              </motion.div>
+            </div>
           </AnimatedContent>
         </div>
       </div>
+
+      {/* Scroll cue */}
+      <a href="#services" className="hero-scroll-cue" aria-label="Scroll to services">
+        <span className="hero-scroll-cue__mouse">
+          <span className="hero-scroll-cue__wheel" />
+        </span>
+        <span className="hero-scroll-cue__label">scroll</span>
+      </a>
     </section>
   );
 }
