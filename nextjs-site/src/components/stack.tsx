@@ -2,6 +2,7 @@
 
 import AnimatedContent from '@/components/ui/animated-content';
 import ScrollVelocity from '@/components/ui/scroll-velocity';
+import SectionHeader from '@/components/ui/section-header';
 
 const GROUPS = [
   { label: 'AI', pills: ['Claude API', 'OpenAI API', 'LangChain', 'MCP Protocol'] },
@@ -15,32 +16,37 @@ const ALL_TECH = GROUPS.flatMap((g) => g.pills);
 
 export default function Stack() {
   return (
-    <section id="stack" className="py-[var(--section-pad)]">
-      <div className="container">
-        <AnimatedContent>
-          <span className="section-label">// under the hood</span>
-        </AnimatedContent>
-        <AnimatedContent delay={0.1}>
-          <h2 className="section-title">Built on Tools That Actually Work</h2>
-        </AnimatedContent>
+    <section id="stack" className="section">
+      <div className="section__bg">
+        <div className="bg-grid-faint absolute inset-0" />
       </div>
 
-      {/* Scrolling marquee */}
-      <div className="mb-12 overflow-hidden">
+      <SectionHeader
+        eyebrow="// under the hood"
+        title={
+          <>
+            Tools that <span className="text-gradient">ship and don&apos;t break.</span>
+          </>
+        }
+        lede="We don’t chase frameworks. We pick what ships fastest, fails least, and is easiest for your team to own after handoff."
+      />
+
+      {/* Marquee */}
+      <div className="mb-12 overflow-hidden border-y border-[var(--border)] py-5 bg-[var(--bg-surface)]/30">
         <ScrollVelocity
           texts={[ALL_TECH.join('  ·  '), ALL_TECH.join('  ·  ')]}
-          velocity={40}
-          className="text-[var(--text-muted)] font-mono text-sm"
-          scrollerClassName="font-mono text-sm font-normal tracking-normal text-[var(--text-muted)] drop-shadow-none !text-base !leading-normal md:!text-lg md:!leading-normal"
+          velocity={36}
+          className="text-[var(--text-muted)] font-mono"
+          scrollerClassName="font-mono text-base md:text-lg font-medium tracking-wide text-[var(--text-secondary)]"
         />
       </div>
 
       <div className="container">
-        <AnimatedContent delay={0.2}>
-          <div className="space-y-6">
+        <AnimatedContent delay={0.1}>
+          <div className="space-y-5 max-w-4xl">
             {GROUPS.map((group) => (
               <div key={group.label} className="flex flex-wrap items-center gap-3">
-                <span className="text-xs font-mono font-semibold text-[var(--accent)] w-24 flex-shrink-0">
+                <span className="font-[var(--font-mono)] text-xs font-semibold text-[var(--accent)] w-24 flex-shrink-0 uppercase tracking-wide">
                   {group.label}
                 </span>
                 <div className="flex flex-wrap gap-2">
@@ -53,9 +59,9 @@ export default function Stack() {
           </div>
         </AnimatedContent>
 
-        <AnimatedContent delay={0.3}>
+        <AnimatedContent delay={0.2}>
           <p className="mt-8 text-sm italic text-[var(--text-muted)]">
-            — &ldquo;We don&apos;t chase frameworks. We use what ships fastest and breaks least.&rdquo;
+            — “We don’t chase frameworks. We use what ships fastest and breaks least.”
           </p>
         </AnimatedContent>
       </div>

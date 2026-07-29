@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import AnimatedContent from '@/components/ui/animated-content';
+import SectionHeader from '@/components/ui/section-header';
 
 /* ─── Data ────────────────────────────────────────── */
 
@@ -707,14 +708,15 @@ export default function Contact() {
 
   if (status === 'success') {
     return (
-      <section id="contact" className="py-[var(--section-pad)]">
+      <section id="contact" className="section">
+        <div className="section__bg">
+          <div className="glow-orb glow-orb--emerald" style={{ width: 420, height: 420, top: '10%', left: '-10%', opacity: 0.3 }} />
+        </div>
         <div className="container">
-          <AnimatedContent>
-            <span className="section-label">// message received</span>
-          </AnimatedContent>
-          <AnimatedContent delay={0.1}>
-            <h2 className="section-title">We&apos;re On It.</h2>
-          </AnimatedContent>
+          <SectionHeader
+            eyebrow="// message received"
+            title={<>We&apos;re <span className="text-gradient">on it.</span></>}
+          />
           <AnimatedContent delay={0.2}>
             <SuccessTerminal />
           </AnimatedContent>
@@ -741,26 +743,27 @@ export default function Contact() {
   /* ─── Main form ─────────────────────────────────── */
 
   return (
-    <section id="contact" className="py-[var(--section-pad)]">
+    <section id="contact" className="section">
+      <div className="section__bg">
+        <div className="glow-orb glow-orb--emerald" style={{ width: 460, height: 460, top: '0%', right: '-12%', opacity: 0.3 }} />
+        <div className="bg-grid-faint absolute inset-0" />
+      </div>
       <div className="container">
-        <AnimatedContent>
-          <span className="section-label">// let&apos;s talk</span>
-        </AnimatedContent>
-        <AnimatedContent delay={0.1}>
-          <h2 className="section-title">Stop Doing Manually What AI Can Handle</h2>
-        </AnimatedContent>
-        <AnimatedContent delay={0.15}>
-          <p className="text-[var(--text-secondary)] max-w-2xl mb-10 -mt-4">
-            Every hour your team spends on repetitive tasks is an hour lost to growth.
-            Tell us what needs automating — we&apos;ll show you how to get it done in weeks, not months.
-          </p>
-        </AnimatedContent>
+        <SectionHeader
+          eyebrow="// let's talk"
+          title={
+            <>
+              Stop doing manually what <span className="text-gradient">AI can handle.</span>
+            </>
+          }
+          lede="Every hour your team spends on repetitive tasks is an hour lost to growth. Tell us what needs automating — we'll show you how to get it done in weeks, not months."
+        />
 
-        <AnimatedContent delay={0.2}>
+        <AnimatedContent delay={0.15}>
           <div className="grid lg:grid-cols-5 gap-8" ref={formRef}>
             {/* Interactive form */}
             <div className="lg:col-span-3">
-              <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] p-6 md:p-8">
+              <div className="card p-6 md:p-8">
                 <ProgressBar step={step} total={TOTAL_STEPS} />
 
                 <div className="min-h-[320px] relative">
@@ -840,7 +843,7 @@ export default function Contact() {
 
             {/* Info card */}
             <div className="lg:col-span-2">
-              <div className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] p-6 sticky top-24">
+              <div className="card p-6 sticky top-24">
                 <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-4">Get in Touch</h3>
                 <a
                   href="mailto:hello@mragentix.ai"

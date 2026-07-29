@@ -5,6 +5,7 @@ import GlitchText from '@/components/ui/glitch-text';
 
 const NAV_LINKS = [
   { href: '#services', label: 'Services' },
+  { href: '#automation', label: 'Automation' },
   { href: '#how-it-works', label: 'How It Works' },
   { href: '#stack', label: 'Stack' },
   { href: '#projects', label: 'Projects' },
