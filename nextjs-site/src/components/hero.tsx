@@ -50,7 +50,7 @@ export default function Hero() {
       <div className="hero-glow absolute inset-0 z-[1] pointer-events-none" aria-hidden />
 
       <div className="container relative z-10">
-        <motion.div style={{ y: contentY, opacity: contentOpacity }} className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-8 items-center">
+        <motion.div style={{ y: contentY, opacity: contentOpacity, willChange: 'transform, opacity' }} className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-8 items-center">
           {/* ---- Copy ---- */}
           <motion.div
             variants={container}

@@ -238,7 +238,7 @@ export default function HeroScene({ className = '' }: { className?: string }) {
       alpha: true,
       antialias: true,
       depth: true,
-      dpr: Math.min(window.devicePixelRatio || 1, 1.75),
+      dpr: Math.min(window.devicePixelRatio || 1, 1.5),
     });
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
@@ -250,7 +250,7 @@ export default function HeroScene({ className = '' }: { className?: string }) {
     const scene = new Transform();
 
     // ---- Core sphere (morphing, fresnel-glow) ----
-    const coreGeo = new Sphere(gl, { radius: 1.12, widthSegments: 64, heightSegments: 48 });
+    const coreGeo = new Sphere(gl, { radius: 1.12, widthSegments: 48, heightSegments: 36 });
     const coreProgram = new Program(gl, {
       vertex: CORE_VERT,
       fragment: CORE_FRAG,
@@ -305,7 +305,7 @@ export default function HeroScene({ className = '' }: { className?: string }) {
     coreGroup.rotation.set(-0.35, 0.0, 0.28);
 
     // ---- Orbital ring of points ----
-    const ringData = makeRing(220, 2.05);
+    const ringData = makeRing(160, 2.05);
     const ringGeo = new Geometry(gl, {
       position: { size: 3, data: ringData.position },
       aSize: { size: 1, data: ringData.aSize },
@@ -329,7 +329,7 @@ export default function HeroScene({ className = '' }: { className?: string }) {
     ring.setParent(scene);
 
     // ---- Starfield ----
-    const starData = makeStarfield(900, 6);
+    const starData = makeStarfield(600, 6);
     const starGeo = new Geometry(gl, {
       position: { size: 3, data: starData.position },
       aSize: { size: 1, data: starData.aSize },
@@ -398,10 +398,10 @@ export default function HeroScene({ className = '' }: { className?: string }) {
       coreGroup.rotation.y = t * (0.12 + sp * 0.3);
       ring.rotation.y = t * (0.22 + sp * 0.25);
 
-      // camera parallax (eased) + scroll dolly
-      camPos.set(mx * 0.9, -my * 0.6 - sp * 0.5, 4.4 - sp * 1.5);
-      cur.lerp(camPos, 0.05);
-      camera.position.copy(cur);
+      // camera parallax: smooth the MOUSE only, apply SCROLL 1:1 so it never lags/jitters
+      camPos.set(mx * 0.9, -my * 0.6, 0);
+      cur.lerp(camPos, 0.08);
+      camera.position.set(cur.x, cur.y - sp * 0.5, 4.4 - sp * 1.5);
       camera.lookAt(target);
 
       renderer.render({ scene, camera });
