@@ -1,9 +1,11 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { motion, type Variants } from 'motion/react';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform, type Variants } from 'motion/react';
 import StarBorder from '@/components/ui/star-border';
 import AnimatedContent from '@/components/ui/animated-content';
+import MagneticButton from '@/components/ui/magnetic-button';
 import TiltCard from '@/components/ui/tilt-card';
 import Terminal from '@/components/terminal';
 
@@ -28,8 +30,14 @@ const word: Variants = {
 };
 
 export default function Hero() {
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, -90]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
+
   return (
     <section
+      ref={heroRef}
       id="hero"
       className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-20"
     >
@@ -42,7 +50,7 @@ export default function Hero() {
       <div className="hero-glow absolute inset-0 z-[1] pointer-events-none" aria-hidden />
 
       <div className="container relative z-10">
-        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-8 items-center">
+        <motion.div style={{ y: contentY, opacity: contentOpacity }} className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-8 items-center">
           {/* ---- Copy ---- */}
           <motion.div
             variants={container}
@@ -79,18 +87,20 @@ export default function Hero() {
             </motion.p>
 
             <motion.div variants={word} className="flex flex-wrap gap-4 mt-9">
-              <StarBorder
-                as="a"
-                href="#contact"
-                color="#00e5a0"
-                speed="5s"
-                className="!rounded-xl hero-cta"
-              >
-                <span className="px-5 py-2.5 font-semibold inline-flex items-center gap-2">
-                  Book a Free Discovery Call
-                  <span className="hero-cta__arrow">→</span>
-                </span>
-              </StarBorder>
+              <MagneticButton strength={0.4}>
+                <StarBorder
+                  as="a"
+                  href="#contact"
+                  color="#00e5a0"
+                  speed="5s"
+                  className="!rounded-xl hero-cta"
+                >
+                  <span className="px-5 py-2.5 font-semibold inline-flex items-center gap-2">
+                    Book a Free Discovery Call
+                    <span className="hero-cta__arrow">→</span>
+                  </span>
+                </StarBorder>
+              </MagneticButton>
               <a href="#services" className="btn btn--ghost btn--lg">
                 See what we build
               </a>
@@ -144,7 +154,7 @@ export default function Hero() {
               </motion.div>
             </div>
           </AnimatedContent>
-        </div>
+        </motion.div>
       </div>
 
       {/* Scroll cue */}

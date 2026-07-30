@@ -49,6 +49,8 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;
   overflow-x: clip;
+  /* gives motion's element-target useScroll a non-static container (silences dev warning) */
+  position: relative;
 }
 
 body {
@@ -616,6 +618,201 @@ body {
   padding: 0.9rem 1.6rem;
   font-size: 1rem;
 }
+
+/* ============================================
+   v3 polish — grain, focus, micro-interactions
+   ============================================ */
+
+/* Film grain overlay (added once in layout) */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@media (prefers-reduced-motion: reduce) {
+  .grain { opacity: 0.03; }
+}
+
+/* Global focus ring */
+:where(a, button, [role='button'], input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Primary button sheen sweep */
+.btn--primary {
+  position: relative;
+  overflow: hidden;
+}
+.btn--primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+  transform: translateX(-130%);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+.btn--primary:hover::after {
+  transform: translateX(130%);
+}
+
+/* Animated link underline */
+.link-underline {
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.3s ease;
+}
+.link-underline:hover {
+  background-size: 100% 1px;
+}
+
+/* Cursor glow */
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 460px;
+  height: 460px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(circle, rgba(0, 229, 160, 0.10), transparent 60%);
+  mix-blend-mode: screen;
+  transition: opacity 0.4s ease;
+}
+@media (hover: none) {
+  .cursor-glow { display: none; }
+}
+
+/* ROI calculator range inputs */
+.roi-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  outline: none;
+}
+.roi-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--bg-base);
+  box-shadow: 0 0 0 1px var(--accent), 0 0 12px rgba(0, 229, 160, 0.6);
+  cursor: pointer;
+}
+.roi-range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--bg-base);
+  box-shadow: 0 0 0 1px var(--accent);
+  cursor: pointer;
+}
+
+/* Hero static poster (mobile/low-end fallback) */
+.hero-poster {
+  background:
+    radial-gradient(50% 50% at 68% 42%, rgba(0, 229, 160, 0.22), transparent 70%),
+    radial-gradient(40% 40% at 25% 60%, rgba(0, 229, 160, 0.12), transparent 70%),
+    radial-gradient(circle at 50% 50%, #11161d, #0d1117);
+}
+
+/* Sticky conversion bar */
+.cta-bar {
+  position: fixed;
+  left: 50%;
+  bottom: 1.25rem;
+  transform: translate(-50%, 140%);
+  z-index: 55;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-accent);
+  background: rgba(13, 17, 23, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 18px 50px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 229, 160, 0.06);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cta-bar--visible {
+  transform: translate(-50%, 0);
+}
+.cta-bar__text {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.cta-bar__text strong { color: var(--text-primary); }
+
+/* Command palette backdrop */
+.k-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(8, 11, 15, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.k-panel {
+  position: fixed;
+  top: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 81;
+  width: min(560px, calc(100vw - 2rem));
+  border-radius: 14px;
+  border: 1px solid var(--border-accent);
+  background: rgba(22, 27, 34, 0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 30px 90px -30px rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+}
+.k-input {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  padding: 1rem 1.1rem;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  border-bottom: 1px solid var(--border);
+}
+.k-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.7rem 1.1rem;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+}
+.k-item--active {
+  background: rgba(0, 229, 160, 0.08);
+  color: var(--text-primary);
+}
+.k-item__icon { color: var(--accent); width: 16px; flex-shrink: 0; }
+.k-item__hint { margin-left: auto; font-family: var(--font-mono), monospace; font-size: 0.65rem; color: var(--text-muted); }
 
 /* ============================================
    Design system v2 — full-site polish

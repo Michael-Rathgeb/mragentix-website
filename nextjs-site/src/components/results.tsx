@@ -11,6 +11,13 @@ interface Testimonial {
   outcome: string;
 }
 
+const METRICS = [
+  { value: '47s', label: 'avg lead response' },
+  { value: '+31%', label: 'close-rate lift' },
+  { value: '340+', label: 'pages / week' },
+  { value: '12h+', label: 'reclaimed / week' },
+];
+
 const TESTIMONIALS: Testimonial[] = [
   {
     before: 'Our team spent 12+ hours a week manually qualifying leads from web forms and phone calls.',
@@ -73,6 +80,17 @@ export default function Results() {
           }
           lede="Before → after, in our clients' own words. Same businesses, same markets — minus the manual grind."
         />
+
+        <AnimatedContent delay={0.1}>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+            {METRICS.map((m) => (
+              <div key={m.label} className="card p-5 text-center">
+                <div className="text-2xl md:text-3xl font-bold text-[var(--accent)]">{m.value}</div>
+                <div className="text-xs text-[var(--text-muted)] font-[var(--font-mono)] uppercase mt-1">{m.label}</div>
+              </div>
+            ))}
+          </div>
+        </AnimatedContent>
 
         <div className="grid md:grid-cols-3 gap-6 mb-10">
           {TESTIMONIALS.map((t, i) => (

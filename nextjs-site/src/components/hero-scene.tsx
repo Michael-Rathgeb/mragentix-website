@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Renderer,
   Camera,
@@ -217,8 +217,18 @@ function makeRing(count: number, radius: number) {
 
 export default function HeroScene({ className = '' }: { className?: string }) {
   const mountRef = useRef<HTMLDivElement>(null);
+  const [lowEnd] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const coarse = window.matchMedia('(pointer: coarse)').matches;
+    const cores = navigator.hardwareConcurrency || 8;
+    const mem = (navigator as unknown as { deviceMemory?: number }).deviceMemory || 8;
+    // Skip WebGL on reduced-motion or low-end mobile devices; show a static poster instead.
+    return reduce || (coarse && (cores <= 4 || mem <= 4));
+  });
 
   useEffect(() => {
+    if (lowEnd) return;
     const mount = mountRef.current;
     if (!mount) return;
 
@@ -373,7 +383,10 @@ export default function HeroScene({ className = '' }: { className?: string }) {
     const t0 = performance.now();
     const render = (now: number) => {
       raf = requestAnimationFrame(render);
+      // pause the GPU once the visitor has scrolled well past the hero
+      if (window.scrollY > window.innerHeight * 1.3) return;
       const t = (now - t0) / 1000;
+      const sp = Math.min(1, Math.max(0, window.scrollY / Math.max(1, window.innerHeight)));
 
       // shared time on all programs
       coreProgram.uniforms.uTime.value = t;
@@ -381,13 +394,13 @@ export default function HeroScene({ className = '' }: { className?: string }) {
       ringProgram.uniforms.uTime.value = t;
       starProgram.uniforms.uTime.value = t;
 
-      // rotate the core group + ring
-      coreGroup.rotation.y = t * 0.12;
-      ring.rotation.y = t * 0.22;
+      // scroll makes the core spin faster and the camera dolly in
+      coreGroup.rotation.y = t * (0.12 + sp * 0.3);
+      ring.rotation.y = t * (0.22 + sp * 0.25);
 
-      // camera parallax (eased)
-      camPos.set(mx * 0.9, -my * 0.6, 4.4);
-      cur.lerp(camPos, 0.04);
+      // camera parallax (eased) + scroll dolly
+      camPos.set(mx * 0.9, -my * 0.6 - sp * 0.5, 4.4 - sp * 1.5);
+      cur.lerp(camPos, 0.05);
       camera.position.copy(cur);
       camera.lookAt(target);
 
@@ -412,7 +425,10 @@ export default function HeroScene({ className = '' }: { className?: string }) {
       if (mount && gl.canvas.parentNode === mount) mount.removeChild(gl.canvas);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  }, []);
+  }, [lowEnd]);
 
+  if (lowEnd) {
+    return <div className={`hero-poster ${className}`} aria-hidden="true" />;
+  }
   return <div ref={mountRef} className={className} aria-hidden="true" />;
 }
