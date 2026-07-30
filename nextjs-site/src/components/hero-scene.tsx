@@ -386,7 +386,6 @@ export default function HeroScene({ className = '' }: { className?: string }) {
       // pause the GPU once the hero has scrolled out of view
       if (window.scrollY > window.innerHeight * 1.05) return;
       const t = (now - t0) / 1000;
-      const sp = Math.min(1, Math.max(0, window.scrollY / Math.max(1, window.innerHeight)));
 
       // shared time on all programs
       coreProgram.uniforms.uTime.value = t;
@@ -394,14 +393,14 @@ export default function HeroScene({ className = '' }: { className?: string }) {
       ringProgram.uniforms.uTime.value = t;
       starProgram.uniforms.uTime.value = t;
 
-      // scroll makes the core spin faster and the camera dolly in
-      coreGroup.rotation.y = t * (0.12 + sp * 0.3);
-      ring.rotation.y = t * (0.22 + sp * 0.25);
+      // gentle autonomous spin
+      coreGroup.rotation.y = t * 0.12;
+      ring.rotation.y = t * 0.22;
 
-      // camera parallax: smooth the MOUSE only, apply SCROLL 1:1 so it never lags/jitters
-      camPos.set(mx * 0.9, -my * 0.6, 0);
-      cur.lerp(camPos, 0.08);
-      camera.position.set(cur.x, cur.y - sp * 0.5, 4.4 - sp * 1.5);
+      // camera parallax (eased, mouse only — no scroll linkage)
+      camPos.set(mx * 0.9, -my * 0.6, 4.4);
+      cur.lerp(camPos, 0.04);
+      camera.position.copy(cur);
       camera.lookAt(target);
 
       renderer.render({ scene, camera });

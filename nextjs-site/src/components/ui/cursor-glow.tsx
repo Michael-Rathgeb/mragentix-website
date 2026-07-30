@@ -13,7 +13,7 @@ export default function CursorGlow() {
   const sy = useSpring(y, { stiffness: 140, damping: 22, mass: 0.5 });
 
   useEffect(() => {
-    const half = 230; // half of element width to center on pointer
+    const half = 150; // half of element width to center on pointer
     const move = (e: PointerEvent) => {
       x.set(e.clientX - half);
       y.set(e.clientY - half);

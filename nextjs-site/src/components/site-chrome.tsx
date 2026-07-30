@@ -1,6 +1,7 @@
 import CursorGlow from '@/components/ui/cursor-glow';
 import StickyCtaBar from '@/components/ui/sticky-cta-bar';
 import CommandPalette from '@/components/ui/command-palette';
+import TextSpotlight from '@/components/ui/text-spotlight';
 
 /**
  * Global, app-wide UI layer: film grain, trailing cursor glow, ⌘K command
@@ -11,6 +12,7 @@ export default function SiteChrome() {
     <>
       <div className="grain" aria-hidden />
       <CursorGlow />
+      <TextSpotlight />
       <StickyCtaBar />
       <CommandPalette />
     </>
