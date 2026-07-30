@@ -117,7 +117,7 @@ interface Client {
 const CLIENTS: Client[] = [
   {
     emoji: '🛡️',
-    name: 'Greg Kostuk — State Farm',
+    name: 'AEO Q&A Site',
     industry: 'Insurance · Arvada, CO',
     type: 'AEO-optimized insurance Q&A site',
     badge: 'AEO',
