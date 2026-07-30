@@ -21,15 +21,17 @@ export default function Stack() {
         <div className="bg-grid-faint absolute inset-0" />
       </div>
 
-      <SectionHeader
-        eyebrow="// under the hood"
-        title={
-          <>
-            Tools that <span className="text-gradient">ship and don&apos;t break.</span>
-          </>
-        }
-        lede="We don’t chase frameworks. We pick what ships fastest, fails least, and is easiest for your team to own after handoff."
-      />
+      <div className="container">
+        <SectionHeader
+          eyebrow="// under the hood"
+          title={
+            <>
+              Tools that <span className="text-gradient">ship and don&apos;t break.</span>
+            </>
+          }
+          lede="We don’t chase frameworks. We pick what ships fastest, fails least, and is easiest for your team to own after handoff."
+        />
+      </div>
 
       {/* Marquee */}
       <div className="mb-12 overflow-hidden border-y border-[var(--border)] py-5 bg-[var(--bg-surface)]/30">
