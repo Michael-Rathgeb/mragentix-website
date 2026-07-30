@@ -21,6 +21,22 @@ interface Project {
 const PROJECTS: Project[] = [
   {
     icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4M10 10h4M10 14h4M10 18h4"/></svg>
+    ),
+    tags: ['Nuxt 4', 'Laravel 12', 'Cloudflare', 'Stripe'],
+    title: 'Unify — local-business SaaS',
+    desc: 'Locafy Unify is a full-stack, multi-tenant SaaS we built end-to-end. A Nuxt 4 app (a backend-for-frontend running on Cloudflare’s edge) talks to a Laravel 12 API, letting teams run Google Business Profiles, communications, catalog & billing, and analytics across an entire company tree.',
+    features: [
+      'Multi-tenant by design — company → child companies → users, with role & permission RBAC',
+      'Google Business Profile suite — auto-posting, brand voice, content library, reviews, photos & insights',
+      'Unified communications — threaded messaging, notifications & action items, real-time over WebSockets',
+      'Billing & catalog — Stripe checkout, product catalog, coupons & full order lifecycle',
+    ],
+    stack: ['Nuxt 4', 'Laravel 12', 'Cloudflare', 'Stripe', 'Reverb', 'AWS S3'],
+    metric: { value: 'Full-stack', label: 'multi-tenant SaaS' },
+  },
+  {
+    icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
     ),
     tags: ['Python', 'Scrapy', 'Claude API'],
