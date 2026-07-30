@@ -184,7 +184,7 @@ export default function OpenSource() {
             </div>
             <div className="flex gap-3">
               <a
-                href="https://github.com/MichaelRathworworkseb/MRagentix-framework"
+                href="https://github.com/Michael-Rathgeb/MRagentix-framework"
                 className="btn btn--outline btn--sm"
                 target="_blank"
                 rel="noopener noreferrer"

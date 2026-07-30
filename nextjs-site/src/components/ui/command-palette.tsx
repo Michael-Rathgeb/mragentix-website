@@ -86,7 +86,7 @@ export default function CommandPalette() {
         id: 'github',
         label: 'Open MR Agentix on GitHub',
         icon: ICON.github,
-        run: () => window.open('https://github.com/MichaelRathworworkseb/MRagentix-framework', '_blank', 'noopener'),
+        run: () => window.open('https://github.com/Michael-Rathgeb/MRagentix-framework', '_blank', 'noopener'),
       },
       {
         id: 'npm',

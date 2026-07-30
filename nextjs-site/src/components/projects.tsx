@@ -4,6 +4,8 @@ import AnimatedContent from '@/components/ui/animated-content';
 import SpotlightCard from '@/components/ui/spotlight-card';
 import SectionHeader from '@/components/ui/section-header';
 
+const GH = 'https://github.com/Michael-Rathgeb';
+
 interface Project {
   icon: React.ReactNode;
   tags: string[];
@@ -12,13 +14,14 @@ interface Project {
   features: string[];
   stack: string[];
   metric?: { value: string; label: string };
+  repo?: string;
   featured?: boolean;
 }
 
 const PROJECTS: Project[] = [
   {
     icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
     ),
     tags: ['Python', 'Scrapy', 'Claude API'],
     title: 'Multi-Agent SEO Audit Tool',
@@ -31,7 +34,42 @@ const PROJECTS: Project[] = [
     ],
     stack: ['Scrapy', 'Playwright', 'Jinja2', 'Google APIs'],
     metric: { value: '13', label: 'parallel agents' },
+    repo: `${GH}/MR-Agentix-Tools`,
     featured: true,
+  },
+  {
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg>
+    ),
+    tags: ['TypeScript', 'Telegram', 'Playwright'],
+    title: 'Pocket Agent — personal AI',
+    desc: 'A menu-bar AI assistant that actually knows you. Persistent semantic memory, scheduled routines that run as full agent executions, browser automation with authenticated sessions, and multi-session isolation.',
+    features: [
+      'Persistent memory — extracts projects, people & preferences; recalls months later',
+      'Scheduled routines/automations that execute with full tool + browser access',
+      'Browser automation in your real Chrome session (no re-login)',
+      'Multi-session isolation (up to 5 threads) + Telegram integration',
+    ],
+    stack: ['TypeScript', 'Telegram', 'Playwright', 'Vector memory'],
+    metric: { value: '60+', label: 'tools' },
+    repo: `${GH}/MR-Agentix-Agent`,
+  },
+  {
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    ),
+    tags: ['React', 'Vite', 'Express', 'Pi SDK'],
+    title: 'Locafy Platform — modular SEO toolkit',
+    desc: 'A plugin-based SEO dashboard with sub-agent orchestration via the Pi SDK. Every tool is a hot-swappable plugin; add capabilities without touching core. Ships with a 13-agent SEO audit and a live job dashboard.',
+    features: [
+      'Plugin architecture — every tool implements a ToolPlugin interface',
+      '13-agent SEO audit plugin: crawl → analyze → report',
+      'React + Vite dashboard streaming live job status over Socket.IO',
+      'Sub-agent orchestration; schema-gen, content-gap & rank-tracker plugins',
+    ],
+    stack: ['React', 'Vite', 'Express', 'Socket.IO', 'Pi SDK'],
+    metric: { value: '13', label: 'audit agents' },
+    repo: `${GH}/MR-Agentix-Tools`,
   },
   {
     icon: (
@@ -67,6 +105,56 @@ const PROJECTS: Project[] = [
   },
 ];
 
+interface Client {
+  emoji: string;
+  name: string;
+  industry: string;
+  type: string;
+  badge: string;
+  repo: string;
+}
+
+const CLIENTS: Client[] = [
+  {
+    emoji: '🛡️',
+    name: 'Greg Kostuk — State Farm',
+    industry: 'Insurance · Arvada, CO',
+    type: 'AEO-optimized insurance Q&A site',
+    badge: 'AEO',
+    repo: `${GH}/greg-kostuk-state-farm-arvada`,
+  },
+  {
+    emoji: '🏠',
+    name: 'Trill Roofing',
+    industry: 'Roofing · Godfrey, IL',
+    type: 'AEO-optimized roofing Q&A site',
+    badge: 'AEO',
+    repo: `${GH}/trill-roofing-godfrey`,
+  },
+  {
+    emoji: '📅',
+    name: 'C-rad Field Service Calendar',
+    industry: 'Custom operations software',
+    type: 'React/Vite scheduling app for field teams',
+    badge: 'Custom',
+    repo: `${GH}/crad-field-service-calendar`,
+  },
+];
+
+function RepoLink({ repo }: { repo: string }) {
+  return (
+    <a
+      href={repo}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--accent)] hover:underline"
+    >
+      View source
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+    </a>
+  );
+}
+
 export default function Projects() {
   const featured = PROJECTS[0];
   const rest = PROJECTS.slice(1);
@@ -84,7 +172,7 @@ export default function Projects() {
               Real systems, <span className="text-gradient">running in production.</span>
             </>
           }
-          lede="Not mockups. These are tools we built, deployed, and maintain — most are open source."
+          lede="Not mockups. Tools we built, deployed, and maintain — plus real client work live in the wild."
         />
 
         {/* Featured */}
@@ -114,19 +202,20 @@ export default function Projects() {
                 </li>
               ))}
             </ul>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap items-center gap-2 mb-4">
               {featured.stack.map((s) => (
                 <span key={s} className="pill pill--sm">{s}</span>
               ))}
             </div>
+            {featured.repo && <RepoLink repo={featured.repo} />}
           </SpotlightCard>
         </AnimatedContent>
 
         {/* Supporting */}
         <div className="grid md:grid-cols-2 gap-6">
           {rest.map((project, i) => (
-            <AnimatedContent key={i} delay={0.2 + i * 0.1}>
-              <SpotlightCard className="card p-6 h-full" spotlightColor="rgba(0, 229, 160, 0.06)">
+            <AnimatedContent key={i} delay={0.2 + i * 0.08}>
+              <SpotlightCard className="card p-6 h-full flex flex-col" spotlightColor="rgba(0, 229, 160, 0.06)">
                 <div className="flex items-start justify-between mb-4 flex-wrap gap-3">
                   <div className="flex items-center gap-3">
                     <div className="icon-chip">{project.icon}</div>
@@ -153,15 +242,51 @@ export default function Projects() {
                     </li>
                   ))}
                 </ul>
-                <div className="flex flex-wrap gap-2">
-                  {project.stack.map((s) => (
-                    <span key={s} className="pill pill--sm">{s}</span>
-                  ))}
+                <div className="mt-auto">
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {project.stack.map((s) => (
+                      <span key={s} className="pill pill--sm">{s}</span>
+                    ))}
+                  </div>
+                  {project.repo && <RepoLink repo={project.repo} />}
                 </div>
               </SpotlightCard>
             </AnimatedContent>
           ))}
         </div>
+
+        {/* Client work */}
+        <AnimatedContent delay={0.2}>
+          <div className="mt-14">
+            <div className="flex items-baseline gap-3 mb-5">
+              <span className="eyebrow !mb-0">{'// shipped client work'}</span>
+              <span className="text-xs text-[var(--text-muted)] font-[var(--font-mono)]">live in the wild</span>
+            </div>
+            <div className="grid md:grid-cols-3 gap-5">
+              {CLIENTS.map((c) => (
+                <a
+                  key={c.name}
+                  href={c.repo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="card p-5 no-underline group flex flex-col gap-2"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xl">{c.emoji}</span>
+                    <span className="tag">{c.badge}</span>
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors">
+                      {c.name}
+                    </div>
+                    <div className="text-xs text-[var(--text-muted)] font-[var(--font-mono)]">{c.industry}</div>
+                  </div>
+                  <div className="text-xs text-[var(--text-secondary)] mt-auto pt-2">{c.type}</div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </AnimatedContent>
       </div>
     </section>
   );
