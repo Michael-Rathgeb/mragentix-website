@@ -383,8 +383,8 @@ export default function HeroScene({ className = '' }: { className?: string }) {
     const t0 = performance.now();
     const render = (now: number) => {
       raf = requestAnimationFrame(render);
-      // pause the GPU once the visitor has scrolled well past the hero
-      if (window.scrollY > window.innerHeight * 1.3) return;
+      // pause the GPU once the hero has scrolled out of view
+      if (window.scrollY > window.innerHeight * 1.05) return;
       const t = (now - t0) / 1000;
       const sp = Math.min(1, Math.max(0, window.scrollY / Math.max(1, window.innerHeight)));
 

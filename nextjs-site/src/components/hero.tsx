@@ -1,8 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useRef } from 'react';
-import { motion, useScroll, useTransform, type Variants } from 'motion/react';
+import { motion, type Variants } from 'motion/react';
 import StarBorder from '@/components/ui/star-border';
 import AnimatedContent from '@/components/ui/animated-content';
 import MagneticButton from '@/components/ui/magnetic-button';
@@ -30,14 +29,8 @@ const word: Variants = {
 };
 
 export default function Hero() {
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, -90]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
-
   return (
     <section
-      ref={heroRef}
       id="hero"
       className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-20"
     >
@@ -50,7 +43,7 @@ export default function Hero() {
       <div className="hero-glow absolute inset-0 z-[1] pointer-events-none" aria-hidden />
 
       <div className="container relative z-10">
-        <motion.div style={{ y: contentY, opacity: contentOpacity, willChange: 'transform, opacity' }} className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-8 items-center">
+        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-8 items-center">
           {/* ---- Copy ---- */}
           <motion.div
             variants={container}
@@ -154,7 +147,7 @@ export default function Hero() {
               </motion.div>
             </div>
           </AnimatedContent>
-        </motion.div>
+        </div>
       </div>
 
       {/* Scroll cue */}

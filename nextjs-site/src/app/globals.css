@@ -483,11 +483,9 @@ body {
   font-size: 0.76rem;
   letter-spacing: 0.01em;
   color: var(--text-secondary);
-  background: rgba(22, 27, 34, 0.6);
+  background: rgba(22, 27, 34, 0.9);
   border: 1px solid var(--border);
   border-radius: 999px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 .hero-pill__dot {
@@ -548,9 +546,7 @@ body {
 
 .hero-terminal-card .terminal {
   border-color: var(--border-accent);
-  background: rgba(22, 27, 34, 0.82);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: var(--bg-surface);
   box-shadow:
     0 24px 70px -24px rgba(0, 0, 0, 0.8),
     0 0 0 1px rgba(0, 229, 160, 0.08),
