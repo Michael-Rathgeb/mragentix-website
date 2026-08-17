@@ -5,6 +5,7 @@ import GlitchText from '@/components/ui/glitch-text';
 
 const NAV_LINKS = [
   { href: '#services', label: 'Services' },
+  { href: '#automation', label: 'Automation' },
   { href: '#how-it-works', label: 'How It Works' },
   { href: '#stack', label: 'Stack' },
   { href: '#projects', label: 'Projects' },
@@ -58,7 +59,7 @@ export default function Nav() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-[var(--bg-base)]/90 backdrop-blur-md border-b border-[var(--border)]'
+          ? 'bg-[var(--bg-base)]/95 border-b border-[var(--border)]'
           : 'bg-transparent'
       }`}
     >

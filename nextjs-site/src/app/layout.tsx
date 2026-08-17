@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import SiteChrome from '@/components/site-chrome';
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -15,6 +16,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://mragentix.ai"),
   title: "MR Agentix — AI Automation & Agentic Workflows",
   description:
     "MR Agentix builds AI agents, agentic workflows, and intelligent web systems for businesses ready to scale without adding headcount. Based in St. Louis, MO.",
@@ -31,9 +33,6 @@ export const metadata: Metadata = {
     description:
       "We build AI agents, automate workflows, and ship intelligent web systems.",
   },
-  icons: {
-    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>",
-  },
 };
 
 export default function RootLayout({
@@ -47,6 +46,7 @@ export default function RootLayout({
       className={`${dmSans.variable} ${jetbrainsMono.variable}`}
     >
       <body>
+        <SiteChrome />
         {children}
         <script
           type="application/ld+json"

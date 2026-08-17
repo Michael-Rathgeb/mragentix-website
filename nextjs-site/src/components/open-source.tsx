@@ -5,6 +5,7 @@ import Terminal from '@/components/terminal';
 import CountUp from '@/components/ui/count-up';
 import SpotlightCard from '@/components/ui/spotlight-card';
 import AnimatedContent from '@/components/ui/animated-content';
+import SectionHeader from '@/components/ui/section-header';
 
 const OS_STATS = [
   { number: 3, label: 'npm Packages' },
@@ -92,25 +93,27 @@ export default function OpenSource() {
   };
 
   return (
-    <section id="open-source" className="py-[var(--section-pad)] bg-[var(--bg-surface)]">
+    <section id="open-source" className="section">
+      <div className="section__bg">
+        <div className="glow-orb glow-orb--emerald" style={{ width: 440, height: 440, top: '10%', left: '-12%', opacity: 0.3 }} />
+        <div className="bg-grid-faint absolute inset-0" />
+      </div>
       <div className="container">
-        <AnimatedContent>
-          <span className="section-label">// open source</span>
-        </AnimatedContent>
-        <AnimatedContent delay={0.1}>
-          <h2 className="section-title">Not a Wrapper. A Framework.</h2>
-        </AnimatedContent>
-        <AnimatedContent delay={0.15}>
-          <p className="text-[var(--text-secondary)] max-w-3xl mb-10 -mt-4">
-            MR Agentix Coder is a production-grade CLI coding agent — a complete alternative to Claude Code, built from scratch as an open-source TypeScript monorepo. 3 packages. 4 LLM providers. Ship from your terminal.
-          </p>
-        </AnimatedContent>
+        <SectionHeader
+          eyebrow="// open source"
+          title={
+            <>
+              Not a wrapper. <span className="text-gradient">A framework.</span>
+            </>
+          }
+          lede="MR Agentix Coder is a production-grade CLI coding agent — a complete alternative to Claude Code, built from scratch as an open-source TypeScript monorepo. 3 packages. 4 LLM providers. Ship from your terminal."
+        />
 
         {/* Terminal */}
-        <AnimatedContent delay={0.2}>
+        <AnimatedContent delay={0.1}>
           <Terminal
             title="~"
-            className="max-w-2xl mb-10"
+            className="max-w-2xl mb-8"
             lines={[
               { type: 'command', text: 'npm i -g @mragentix/cli' },
               { type: 'success', text: 'Installed @mragentix/cli@1.0.0' },
@@ -124,33 +127,31 @@ export default function OpenSource() {
         </AnimatedContent>
 
         {/* Stats */}
-        <AnimatedContent delay={0.25}>
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-6 mb-10">
+        <AnimatedContent delay={0.15}>
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-6 mb-8 p-6 card">
             {OS_STATS.map((stat, i) => (
               <div key={i} className="text-center">
-                <span className="text-2xl font-bold text-[var(--text-primary)]">
+                <span className="metric-number text-gradient">
                   <CountUp to={stat.number} duration={2} />
                 </span>
-                <span className="block text-xs text-[var(--text-secondary)] mt-1">{stat.label}</span>
+                <span className="block text-xs text-[var(--text-muted)] mt-1 font-[var(--font-mono)] uppercase">{stat.label}</span>
               </div>
             ))}
           </div>
         </AnimatedContent>
 
-        {/* Bento Grid */}
-        <AnimatedContent delay={0.3}>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+        {/* Bento */}
+        <AnimatedContent delay={0.2}>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             {BENTO_ITEMS.map((item, i) => (
               <SpotlightCard
                 key={i}
-                className={`rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] p-5 ${
-                  item.large ? 'lg:col-span-1 sm:col-span-2 lg:col-span-1' : ''
-                }`}
+                className={`card p-5 ${item.large ? 'sm:col-span-2 lg:col-span-1' : ''}`}
                 spotlightColor="rgba(0, 229, 160, 0.06)"
               >
-                <div className="text-[var(--accent)] mb-3">{item.icon}</div>
+                <div className="icon-chip mb-3" style={{ width: 36, height: 36 }}>{item.icon}</div>
                 <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-1">{item.title}</h3>
-                <p className="text-xs text-[var(--text-secondary)]">{item.desc}</p>
+                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{item.desc}</p>
                 {item.tags && (
                   <div className="flex flex-wrap gap-1.5 mt-3">
                     {item.tags.map((tag) => (
@@ -163,10 +164,10 @@ export default function OpenSource() {
           </div>
         </AnimatedContent>
 
-        {/* Install widget */}
-        <AnimatedContent delay={0.35}>
-          <div className="flex flex-col sm:flex-row items-center gap-4 mb-8">
-            <div className="flex items-center gap-3 bg-[var(--bg-elevated)] border border-[var(--border)] rounded-lg px-4 py-3 font-mono text-sm">
+        {/* Install + links */}
+        <AnimatedContent delay={0.25}>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8">
+            <div className="install-cmd">
               <span className="text-[var(--accent)]">$</span>
               <code className="text-[var(--text-primary)]">npm i -g @mragentix/cli</code>
               <button
@@ -183,7 +184,7 @@ export default function OpenSource() {
             </div>
             <div className="flex gap-3">
               <a
-                href="https://github.com/MichaelRathworworkseb/MRagentix-framework"
+                href="https://github.com/Michael-Rathgeb/MRagentix-framework"
                 className="btn btn--outline btn--sm"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -203,8 +204,8 @@ export default function OpenSource() {
           </div>
         </AnimatedContent>
 
-        {/* Package badges */}
-        <AnimatedContent delay={0.4}>
+        {/* Packages */}
+        <AnimatedContent delay={0.3}>
           <div className="grid sm:grid-cols-3 gap-4">
             {PACKAGES.map((pkg) => (
               <a
@@ -212,10 +213,12 @@ export default function OpenSource() {
                 href={pkg.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col gap-1 p-4 rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] hover:border-[var(--accent)] transition-colors no-underline"
+                className="card p-4 no-underline group"
               >
-                <span className="font-mono text-sm font-semibold text-[var(--accent)]">{pkg.name}</span>
-                <span className="text-xs text-[var(--text-secondary)]">{pkg.desc}</span>
+                <span className="block font-[var(--font-mono)] text-sm font-semibold text-[var(--accent)] group-hover:underline">
+                  {pkg.name}
+                </span>
+                <span className="block text-xs text-[var(--text-secondary)] mt-1">{pkg.desc}</span>
               </a>
             ))}
           </div>
